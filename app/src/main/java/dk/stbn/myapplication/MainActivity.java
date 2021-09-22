@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(v == minKnap) {
 
+
+
+
+
             hello.setText("Velkommen!");
             String gættetTal = tal.getText().toString();
             int gættetTalInt = Integer.parseInt(gættetTal);
