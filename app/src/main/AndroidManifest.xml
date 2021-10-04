@@ -3,6 +3,7 @@
     package="dk.stbn.myapplication">
 
     <application
+        android:name=".MinSingleton"
         android:allowBackup="true"
         android:icon="@drawable/hund"
         android:label="@string/app_name"

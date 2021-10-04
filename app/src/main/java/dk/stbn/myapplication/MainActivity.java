@@ -8,16 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button minKnap, menuknap;
     TextView hello;
-    GætTal spil;
     EditText tal;
+
+    MinSingleton a = MinSingleton.app;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         System.out.println("hejsa");
@@ -26,36 +31,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         minKnap = findViewById(R.id.hejknap);
         minKnap.setOnClickListener(this);
         hello = findViewById(R.id.hello);
-        hello.setOnClickListener(this);
-        spil = new GætTal();
+
+        hello.setOnClickListener(v -> {
+            hello.append(".");
+        });
+
+
         tal = findViewById(R.id.talgæt);
-
-
-
-
     }
 
     @Override
     public void onClick(View v) {
         if (v == menuknap){
+
             Intent i = new Intent(this, Menu.class);
+            String brugerinput = tal.getText().toString();
+            i.putExtra("input", brugerinput);
             startActivity(i);
+            //finish();
         }
-        if(v == minKnap) {
-
-
-
-
+        else if(v == minKnap) {
 
             hello.setText("Velkommen!");
             String gættetTal = tal.getText().toString();
             int gættetTalInt = Integer.parseInt(gættetTal);
             System.out.println("Der blev gættet på " + gættetTalInt);
-            spil.gæt(gættetTalInt);
-            if (spil.gættetRigtigt()){
+            a.spil.gæt(gættetTalInt);
+            if (a.spil.gættetRigtigt()){
                 hello.setText("Du gættede rigtigt, tillykke!");
             }
-            else if (spil.gættetVarForHøjt()){
+            else if (a.spil.gættetVarForHøjt()){
                 hello.setText("Dit gæt var for højt, prøv igen");
             }
             else{
@@ -64,12 +69,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }
-        else if (v == hello){
-            System.out.println("klik på textview");
-            //gfg
-        }
+
 
     }
 
+    @Override
+    protected void onStop() {
+        Toast.makeText(this,"stoppet", Toast.LENGTH_LONG).show();
+        super.onStop();
+    }
 
+    @Override
+    protected void onDestroy() {
+        Toast.makeText(this,"lukket", Toast.LENGTH_LONG).show();
+        super.onDestroy();
+    }
 }
